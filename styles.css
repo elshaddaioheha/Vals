@@ -1,0 +1,266 @@
+/* 1. Design System: Typography, Colors, Spacing */
+:root {
+  /* Colors */
+  --primary-purple: #6B2E5F;
+  --secondary-purple: #8B5A8D;
+  --accent-pink: #FFB3C6;
+  --rose-gold: #E8C4B8;
+  --bg-off-white: #FFF8F5;
+  --text-dark: #1A0B15;
+  --gradient: linear-gradient(120deg, #6B2E5F, #FFB3C6);
+
+  /* Spacing scale */
+  --space-xs: 8px;
+  --space-sm: 16px;
+  --space-md: 24px;
+  --space-lg: 32px;
+  --space-xl: 48px;
+  --space-xxl: 64px;
+  --space-xxxl: 96px;
+  --max-width: 1200px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg-off-white);
+  min-height: 100vh;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+main.main-bg {
+  /* Animated gradient handled separately */
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(255,255,255,0.97);
+  border-radius: 32px;
+  padding: var(--space-xl) var(--space-lg);
+  box-shadow: 0 12px 46px 8px #8b5a8d22;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+header {
+  text-align: center;
+  margin-bottom: var(--space-lg);
+}
+
+.valentine-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--primary-purple);
+  letter-spacing: 0.02em;
+  margin: 0;
+  padding: 0;
+  background: var(--gradient);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+}
+
+.valentine-heart {
+  font-size: 64px;
+  display: block;
+  margin-block: var(--space-sm);
+  animation: heartbeat 1.5s infinite cubic-bezier(0.68, -0.55, 0.27, 1.55);
+}
+
+.subtitle {
+  font-size: 24px;
+  color: var(--secondary-purple);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  margin: 0 0 var(--space-lg) 0;
+  letter-spacing: 0.12em;
+}
+
+/* Reveal section and prompt */
+.reveal-section {
+  width: 100%;
+  text-align: center;
+}
+
+.message-prompt {
+  font-size: 18px;
+  color: var(--primary-purple);
+  font-family: 'Poppins', sans-serif;
+  margin-top: var(--space-md);
+  opacity: 0.85;
+}
+
+.reveal-btn {
+  margin: var(--space-lg) 0;
+  background: var(--gradient);
+  color: var(--bg-off-white);
+  font-size: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  padding: 18px 54px;
+  border-radius: 44px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  box-shadow: 0 4px 32px 2px #6b2e5f22;
+  transition: transform 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.05em;
+  will-change: transform;
+}
+
+.reveal-btn:focus-visible {
+  outline: 3px solid var(--accent-pink);
+  outline-offset: 2px;
+}
+
+.reveal-btn .btn-shimmer {
+  /* shimmer effect handled in animations.css */
+}
+
+/* Message reveal and box */
+.message-wrapper {
+  margin-top: var(--space-md);
+  max-width: 100%;
+  width: 100%;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.5s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message-wrapper.revealed {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.message-box {
+  background: linear-gradient(125deg, #fff, #ffe3f3 80%);
+  border-radius: 18px;
+  padding: var(--space-lg) var(--space-md);
+  border-left: 6px solid var(--primary-purple);
+  box-shadow: 0 3px 24px #e8c4b844 inset;
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  z-index: 1;
+}
+
+.message-text {
+  font-size: 20px;
+  line-height: 1.8;
+  font-family: 'Poppins', sans-serif;
+  color: var(--text-dark);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  min-height: 80px;
+  text-shadow: 0 1px 8px #e8c4b833;
+}
+
+/* Confetti system */
+.confetti-container {
+  pointer-events: none;
+  z-index: 111;
+  position: fixed;
+  inset: 0;
+}
+
+/* Floating hearts style */
+.hearts-bg {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+}
+
+.heart {
+  display: inline-block;
+  position: absolute;
+  font-size: 48px;
+  color: var(--primary-purple);
+  filter: drop-shadow(0 2px 8px #6b2e5f33);
+  user-select: none;
+  will-change: transform;
+  /* SVG applied in :before in animations.css */
+}
+
+/* Custom cursor for interactions */
+body .interactive-hover,
+.reveal-btn:hover,
+.reveal-btn:focus {
+  cursor: url('data:image/svg+xml;utf8,<svg height="32" width="32" xmlns="http://www.w3.org/2000/svg"><text y="26" font-size="28">💜</text></svg>') 16 16, pointer;
+}
+
+/* Noise overlay */
+.noise {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: url('https://www.transparenttextures.com/patterns/noise.png');
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+.bokeh {
+  display: block;
+  position: absolute;
+  left:0; top:0; width:100vw; height:100vh;
+  z-index: 9;
+  pointer-events: none;
+  opacity: 0.35;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .container { padding: var(--space-lg) var(--space-md); }
+  .valentine-title { font-size: 58px; }
+  .valentine-heart { font-size: 44px; }
+  .subtitle { font-size: 20px; }
+}
+@media (max-width: 768px) {
+  .container {
+    padding: var(--space-lg) var(--space-sm);
+    max-width: 97vw;
+  }
+  .valentine-title { font-size: 48px; }
+  .heart { font-size: 40px; }
+  .message-box { padding: var(--space-md) var(--space-xs); }
+  .message-text { font-size: 17px; }
+  .reveal-btn { font-size: 17px; padding: 13px 24px;}
+}
+@media (max-width: 480px) {
+  .valentine-title { font-size: 34px; }
+  .valentine-heart { font-size: 32px;}
+  .subtitle { font-size: 14px; }
+}
+
+/* Accessibility: Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
